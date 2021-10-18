@@ -1,2 +1,2 @@
-# physics
-Projects Computational Physics
+# Projects Computational Physics
+
