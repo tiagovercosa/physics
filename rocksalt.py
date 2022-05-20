@@ -22,6 +22,5 @@ def main():
     syst = make_system(a=1.5, b=1., c=1.5)
     kwant.plot(syst, site_size = 0.1, site_lw = 0.01, hop_lw = 0.02)
 
-
 if __name__ == '__main__':
     main()
