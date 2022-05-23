@@ -1,3 +1,5 @@
+    # %run matplotlib_setup.ipy
+
 from types import SimpleNamespace
 
 from ipywidgets import interact
@@ -7,7 +9,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 
 import kwant
-from kwant.wraparound import wraparound
+from kwant import wraparound
 
 
 def momentum_to_lattice(k):
@@ -17,9 +19,7 @@ def momentum_to_lattice(k):
     """
     B = np.array(graphene.prim_vecs).T
     A = B.dot(np.linalg.inv(B.T.dot(B)))
-    return B
-    # return np.linalg.solve(A, k)
-
+    return np.linalg.solve(A, k)
 
 
 def dispersion_2D(syst, args=None, lim=1.5*np.pi, num_points=200):
@@ -31,7 +31,7 @@ def dispersion_2D(syst, args=None, lim=1.5*np.pi, num_points=200):
     for kx in momenta:
         for ky in momenta:
             lattice_k = momentum_to_lattice([kx, ky])
-            h = syst.hamiltonian_submatrix((list(args) + list(lattice_k)))
+            h = syst.hamiltonian_submatrix(args=(list(args) + list(lattice_k)))
             energies.append(np.linalg.eigvalsh(h))
     
     energies = np.array(energies).reshape(num_points, num_points, -1)
@@ -52,10 +52,11 @@ bulk_graphene = kwant.Builder(kwant.TranslationalSymmetry(*graphene.prim_vecs))
 bulk_graphene[graphene.shape((lambda pos: True), (0, 0))] = 0
 bulk_graphene[graphene.neighbors(1)] = 1
 
-dispersion_2D(wraparound(bulk_graphene).finalized())
+dispersion_2D(wraparound.wraparound(bulk_graphene).finalized())
 
 zigzag_ribbon = kwant.Builder(kwant.TranslationalSymmetry([1, 0]))
 zigzag_ribbon[graphene.shape((lambda pos: abs(pos[1]) < 9), (0, 0))] = 0
 zigzag_ribbon[graphene.neighbors(1)] = 1
 
-kwant.plotter.bands(zigzag_ribbon.finalized());
+kwant.plot(bulk_graphene)
+# kwant.plotter.bands(zigzag_ribbon.finalized());
