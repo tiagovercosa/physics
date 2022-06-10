@@ -52,8 +52,8 @@ def plot_conductance(syst, energies):
 
     pyplot.figure()
     pyplot.plot(energies, data)
-    pyplot.xlabel("energy [t]")
-    pyplot.ylabel("conductance [e^2/h]")
+    pyplot.xlabel("energia [t]")
+    pyplot.ylabel("condutância [e^2/h]")
     pyplot.show()
 
 
@@ -63,8 +63,8 @@ def plot_bandstructure(flead, momenta):
 
     pyplot.figure()
     pyplot.plot(momenta, energies)
-    pyplot.xlabel("momentum [(lattice constant)^-1]")
-    pyplot.ylabel("energy [t]")
+    pyplot.xlabel("momentum [(a)^-1]")
+    pyplot.ylabel("energia [t]")
     pyplot.show()
 
 def main():
@@ -87,14 +87,14 @@ def main():
     syst = syst.finalized()
 
     # Compute the band structure of lead 0.
-    pi = np.pi
-    momenta = np.linspace(-pi, pi, 1000)
+    #pi = np.pi
+    #momenta = np.linspace(-pi, pi, 1000)
     #momenta = [0 + 0.02 * pi * i for i in range(101)]
-    plot_bandstructure(syst.leads[1], momenta)
+    #plot_bandstructure(syst.leads[1], momenta)
 
-    # Plot conductance. 1 - 1.8
-    #energies = np.linspace(1., 1.8, 500)
-    #plot_conductance(syst, energies)
+    # Plot conductance.
+    energies = np.linspace(0.75, 2.75, 500)
+    plot_conductance(syst, energies)
 
 if __name__ == '__main__':
     main()
